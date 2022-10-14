@@ -1,12 +1,11 @@
 package com.mt.springdata.controllers;
 
+import com.mt.springdata.dtos.ProjectUserByIp;
+import com.mt.springdata.dtos.ProjectUserDto;
 import com.mt.springdata.entities.ProjectUser;
 import com.mt.springdata.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,25 +14,30 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-	private final UserService userService;
+    private final UserService userService;
 
-	@GetMapping(value = "/all")
-	public List<ProjectUser> getAllUsers() {
-		return userService.getUsers();
-	}
+    @GetMapping(value = "/all")
+    public List<ProjectUserDto> getAllUsers() {
+        return userService.getUsers();
+    }
 
-	@GetMapping(value = "/business")
-	public void getAfterBusiness() {
-		userService.someBusiness();
-	}
+    @PostMapping(value = "/project-user-by-ip")
+    public List<ProjectUserDto> getAllUsers(@RequestBody ProjectUserByIp projectUserByIp) {
+        return userService.getByIp(projectUserByIp.getIp());
+    }
 
-	@GetMapping(value = "/get-instructors")
-	public void getInstructors(@RequestParam(value = "course_id") Long courseId) {
-		userService.getInstructors(courseId);
-	}
+    @GetMapping(value = "/business")
+    public void getAfterBusiness() {
+        userService.someBusiness();
+    }
 
-	@GetMapping(value = "/get-courses")
-	public void getCourses(@RequestParam(value = "instructor_id") Long instructorId) {
-		userService.getCourses(instructorId);
-	}
+    @GetMapping(value = "/get-instructors")
+    public void getInstructors(@RequestParam(value = "course_id") Long courseId) {
+        userService.getInstructors(courseId);
+    }
+
+    @GetMapping(value = "/get-courses")
+    public void getCourses(@RequestParam(value = "instructor_id") Long instructorId) {
+        userService.getCourses(instructorId);
+    }
 }

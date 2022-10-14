@@ -19,6 +19,10 @@ public class Instructor implements Serializable {
 	@ManyToMany(mappedBy = "instructors", cascade = CascadeType.ALL)
 	private Set<Course> courses;
 
+	public Instructor(String name) {
+		this.name = name;
+	}
+
 	public Long getId() {
 		return id;
 	}

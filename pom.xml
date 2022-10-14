@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.5</version>
+        <version>2.7.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.mt</groupId>
@@ -14,10 +14,12 @@
     <name>spring-data</name>
     <description>spring-data</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <ignite.version>2.11.0</ignite.version>
         <ignite-spring-data-ext.version>1.0.0</ignite-spring-data-ext.version>
-        <spring.data.version>2.5.5</spring.data.version>
+        <data.source.utils.version>1.8.1</data.source.utils.version>
+        <postgres.version>42.5.0</postgres.version>
+        <flexypool.version>1.8.1</flexypool.version>
     </properties>
     <dependencies>
         <dependency>
@@ -28,30 +30,40 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.github.gavlyukovskiy</groupId>-->
+        <!--            <artifactId>p6spy-spring-boot-starter</artifactId>-->
+        <!--            <version>${data.source.utils.version}</version>-->
+        <!--        </dependency>-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-batch</artifactId>
+            <groupId>com.github.gavlyukovskiy</groupId>
+            <artifactId>datasource-decorator-spring-boot-autoconfigure</artifactId>
+            <version>${data.source.utils.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-commons</artifactId>
-            <version>${spring.data.version}</version>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>8.5.13</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
+            <version>${postgres.version}</version>
+<!--            <scope>runtime</scope>-->
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>de.siegmar</groupId>
+            <artifactId>logback-gelf</artifactId>
+            <version>4.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -61,20 +73,15 @@
     </dependencies>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*.*</include>
+                    <include>db/migration</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
 </project>
