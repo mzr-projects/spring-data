@@ -47,7 +47,7 @@ public class IPv4Type implements UserType {
             PGobject holder = new PGobject();
             IPv4 iPv4 = (IPv4) o;
             holder.setType("inet");
-            holder.setValue(iPv4.getAddress());
+            holder.setValue(iPv4.address());
             preparedStatement.setObject(i, holder);
         }
     }

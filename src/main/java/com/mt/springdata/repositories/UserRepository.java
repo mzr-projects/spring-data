@@ -1,7 +1,6 @@
 package com.mt.springdata.repositories;
 
 import com.mt.springdata.entities.ProjectUser;
-import lombok.experimental.PackagePrivate;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

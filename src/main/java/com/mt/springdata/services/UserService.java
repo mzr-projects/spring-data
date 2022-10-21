@@ -30,7 +30,7 @@ public class UserService {
         List<ProjectUser> projectUsers = userRepository.getAllUsers();
         for (ProjectUser projectUser : projectUsers) {
             ProjectUserDto projectUserDto = new ProjectUserDto(projectUser.getName(),
-                    projectUser.getIp().getAddress(),
+                    projectUser.getIp().address(),
                     projectUser.getUserType().name(),
                     projectUser.getUserStatus().name());
             projectUserDtoArrayList.add(projectUserDto);
@@ -44,7 +44,7 @@ public class UserService {
         if (projectUsers != null) {
             for (ProjectUser projectUser : projectUsers) {
                 ProjectUserDto projectUserDto = new ProjectUserDto(projectUser.getName(),
-                        projectUser.getIp().getAddress(),
+                        projectUser.getIp().address(),
                         projectUser.getUserType().name(),
                         projectUser.getUserStatus().name());
                 projectUserDtoArrayList.add(projectUserDto);

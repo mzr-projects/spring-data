@@ -1,10 +1,13 @@
 package com.mt.springdata.entities;
 
 import lombok.*;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity(name = "PROJECT_USER")
 @Table(name = "project_user")
@@ -12,6 +15,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @TypeDef(name = "ipv4", typeClass = IPv4Type.class, defaultForType = IPv4.class)
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "ProjectUser")
 public class ProjectUser implements Serializable {
 
     @Id
@@ -40,6 +44,9 @@ public class ProjectUser implements Serializable {
     @JoinColumn(name = "userStatus", insertable = false, updatable = false)
     private UserStatusInfo userStatusInfo;
 
+    @OneToMany(mappedBy = "projectUserSet", orphanRemoval = true, cascade = CascadeType.ALL)
+    private Set<ProjectUserPost> projectUserPosts = new HashSet<>();
+
     public ProjectUser(String name, int age, UserType userType, UserStatus userStatus, IPv4 iPv4) {
         this.name = name;
         this.age = age;
@@ -50,5 +57,27 @@ public class ProjectUser implements Serializable {
 
     public void setIp(String address) {
         this.ip = new IPv4(address);
+    }
+
+    /**
+     * This utility method is responsible for synchronization of two sides of relationship
+     * and this utilities must be on parent side as well
+     *
+     * @param projectUserPost
+     */
+    public void addPost(ProjectUserPost projectUserPost) {
+        projectUserPosts.add(projectUserPost);
+        projectUserPost.setProjectUserSet(this);
+    }
+
+    /**
+     * This utility method is responsible for synchronization of two sides of relationship
+     * and this utilities must be on parent side as well
+     *
+     * @param projectUserPost
+     */
+    public void removePost(ProjectUserPost projectUserPost) {
+        projectUserPosts.remove(projectUserPost);
+        projectUserPost.setProjectUserSet(this);
     }
 }

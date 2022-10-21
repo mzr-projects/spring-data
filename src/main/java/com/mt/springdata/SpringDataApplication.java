@@ -1,19 +1,18 @@
 package com.mt.springdata;
 
 import com.mt.springdata.entities.*;
-import com.mt.springdata.repositories.CourseRepository;
-import com.mt.springdata.repositories.InstructorRepository;
-import com.mt.springdata.repositories.UserRepository;
-import com.mt.springdata.repositories.UserStatusInfoRepository;
+import com.mt.springdata.repositories.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.hazelcast.HazelcastAutoConfiguration;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = HazelcastAutoConfiguration.class)
 @RequiredArgsConstructor
 public class SpringDataApplication implements CommandLineRunner {
 
@@ -24,6 +23,8 @@ public class SpringDataApplication implements CommandLineRunner {
     private final UserStatusInfoRepository userStatusInfoRepository;
 
     private final UserRepository userRepository;
+
+    private final InstructorDetailsRepository instructorDetailsRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(SpringDataApplication.class, args);
@@ -49,6 +50,10 @@ public class SpringDataApplication implements CommandLineRunner {
                 new IPv4("192.168.176.1/24"));
         ProjectUser projectUser4 = new ProjectUser("Michael", 27, UserType.EMPLOYEE, UserStatus.DISABLED,
                 new IPv4("192.168.1.100/24"));
+        projectUser1.addPost(new ProjectUserPost("This is a good one", new Date()));
+        projectUser2.addPost(new ProjectUserPost("This is a Bad one", new Date()));
+        projectUser3.addPost(new ProjectUserPost("This is a Ugly  one", new Date()));
+        projectUser4.addPost(new ProjectUserPost("This is a MF one", new Date()));
         userRepository.save(projectUser1);
         userRepository.save(projectUser2);
         userRepository.save(projectUser3);
@@ -87,7 +92,6 @@ public class SpringDataApplication implements CommandLineRunner {
         course1.setInstructors(instructorSet1);
         course2.setInstructors(instructorSet2);
         course3.setInstructors(instructorSet3);
-
         courseRepository.save(course1);
         courseRepository.save(course2);
         courseRepository.save(course3);
