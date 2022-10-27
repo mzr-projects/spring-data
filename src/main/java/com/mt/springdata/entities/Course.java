@@ -10,37 +10,59 @@ import java.util.Set;
 @NoArgsConstructor
 public class Course implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	private String name;
+    private String name;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(
-			name = "Course_Instructor",
-			joinColumns = {@JoinColumn(name = "course_id")},
-			inverseJoinColumns = {@JoinColumn(name = "instructor_id")}
-	)
-	private Set<Instructor> instructors;
+    /*
+     * Cascade REMOVE will affect both intermediary table and the other end as well
+     * Cause in many to many both ends are independent cascading only makes sense from
+     * parent side to the child and that's done automatically by hibernate thats why
+     * orphanRemoval and Cascade.REMOVE are not desirable in many-to-many associations
+     * */
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinTable(
+            name = "Course_Instructor",
+            joinColumns = {@JoinColumn(name = "course_id")},
+            inverseJoinColumns = {@JoinColumn(name = "instructor_id")}
+    )
+    private Set<Instructor> instructors;
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Set<Instructor> getInstructors() {
-		return instructors;
-	}
+    public Set<Instructor> getInstructors() {
+        return instructors;
+    }
 
-	public void setInstructors(Set<Instructor> instructors) {
-		this.instructors = instructors;
-	}
+    public void setInstructors(Set<Instructor> instructors) {
+        this.instructors = instructors;
+    }
+
+    /*
+     * In Bidirectional associations this method is a very good practice to sync both sides
+     * */
+    public void addInstructor(Instructor instructor) {
+        instructors.add(instructor);
+        instructor.getCourses().add(this);
+    }
+
+    /*
+     * In Bidirectional associations this method is a very good practice to sync both sides
+     * */
+    public void removeInstructor(Instructor instructor) {
+        instructors.remove(instructor);
+        instructor.getCourses().remove(this);
+    }
 }

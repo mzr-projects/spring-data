@@ -1,8 +1,6 @@
 package com.mt.springdata.entities;
 
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.LazyToOne;
-import org.hibernate.annotations.LazyToOneOption;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -20,7 +18,10 @@ public class Instructor implements Serializable {
     @NaturalId
     private String name;
 
-    @ManyToMany(mappedBy = "instructors", cascade = CascadeType.ALL)
+    /*
+     * Bidirectional many-to-many
+     * */
+    @ManyToMany(mappedBy = "instructors", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Course> courses;
 
     /*

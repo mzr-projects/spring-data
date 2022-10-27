@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "UserStatusInfo")
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "UserStatusInfo")
 public class UserStatusInfo implements Serializable {
 
     @Id
