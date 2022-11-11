@@ -5,8 +5,11 @@ import com.mt.springdata.entities.*;
 import com.mt.springdata.repositories.CourseRepository;
 import com.mt.springdata.repositories.InstructorRepository;
 import com.mt.springdata.repositories.UserRepository;
+import com.mt.springdata.repositories.UserRepositoryPageAndSort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +27,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
     private final InstructorRepository instructorRepository;
+
+    private final UserRepositoryPageAndSort userRepositoryPageAndSort;
 
     public List<ProjectUserDto> getUsers() {
         List<ProjectUserDto> projectUserDtoArrayList = new ArrayList<>();
@@ -82,4 +87,13 @@ public class UserService {
         }
     }
 
+    public void getSortUsersAndAge() {
+        List<ProjectUser> projectUsers = userRepositoryPageAndSort.findAllByName("name",
+                Pageable.ofSize(10));
+        projectUsers.forEach((data) -> System.out.println("name : " + data.getName()));
+
+        Page<ProjectUser> projectUserPage = userRepositoryPageAndSort.findAllByAgeGreaterThan(10,
+                Pageable.ofSize(10));
+        projectUserPage.forEach((data) -> System.out.println("age : " + data.getAge()));
+    }
 }

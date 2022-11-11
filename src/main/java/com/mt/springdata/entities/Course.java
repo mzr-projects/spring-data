@@ -8,7 +8,8 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor
-public class Course implements Serializable {
+@DiscriminatorValue("CRS")
+public class Course extends Topic implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

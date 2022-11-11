@@ -23,6 +23,7 @@
         <hazelcast-hibernate.version>2.3.0</hazelcast-hibernate.version>
         <hazelcast.version>5.2.0</hazelcast.version>
         <blaze-persistence.version>1.6.7</blaze-persistence.version>
+        <flyway.version>9.7.0</flyway.version>
     </properties>
     <dependencies>
         <dependency>
@@ -32,6 +33,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
             <groupId>com.blazebit</groupId>
@@ -60,19 +65,15 @@
             <artifactId>p6spy-spring-boot-starter</artifactId>
             <version>${data.source.utils.version}</version>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.github.gavlyukovskiy</groupId>-->
-        <!--            <artifactId>datasource-decorator-spring-boot-autoconfigure</artifactId>-->
-        <!--            <version>${data.source.utils.version}</version>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>com.github.gavlyukovskiy</groupId>
+            <artifactId>flexy-pool-spring-boot-starter</artifactId>
+            <version>${data.source.utils.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
-            <version>9.6.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>${flyway.version}</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -94,7 +95,6 @@
             <artifactId>guava</artifactId>
             <version>31.1-jre</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

@@ -3,6 +3,7 @@ package com.mt.springdata.services;
 import com.mt.springdata.entities.*;
 import com.mt.springdata.repositories.*;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,19 +11,17 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+
+@Service
 @Transactional
 @RequiredArgsConstructor
 public class InitializeTheDb {
 
     private final CourseRepository courseRepository;
 
-    private final InstructorRepository instructorRepository;
-
     private final UserStatusInfoRepository userStatusInfoRepository;
 
     private final UserRepository userRepository;
-
-    private final InstructorDetailsRepository instructorDetailsRepository;
 
     public void init() {
         UserStatusInfo userStatusInfo = new UserStatusInfo(1L, "User is suspended from any activity", "SUSPEND");
@@ -87,5 +86,13 @@ public class InitializeTheDb {
         courseRepository.save(course1);
         courseRepository.save(course2);
         courseRepository.save(course3);
+    }
+
+    public void initTopics() {
+        Course course = new Course();
+        course.setTitle("Java in Title");
+        course.setOwner("MTP");
+        course.setCreatedOn(new Date());
+        courseRepository.save(course);
     }
 }

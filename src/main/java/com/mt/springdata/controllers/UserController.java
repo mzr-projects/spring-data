@@ -40,4 +40,9 @@ public class UserController {
     public void getCourses(@RequestParam(value = "instructor_id") Long instructorId) {
         userService.getCourses(instructorId);
     }
+
+    @GetMapping(value = "/get-sort-date")
+    public void sortService() {
+        userService.getSortUsersAndAge();
+    }
 }
